@@ -370,11 +370,18 @@ public class MainActivity extends Activity {     // 声明组件
 //                        Log.d("kwwl","res=="+response.body().string());
                         String resdata = response.body().string();
                         System.out.println(resdata);
+
                         //此时的代码执行在子线程，修改UI的操作请使用handler跳转到UI线程。
                             JSONObject jsonObject = new JSONObject(resdata);
-                            String resultpath = (jsonObject.getString("msg"));
-                            String resultnum = (jsonObject.getString("stationnum"));
-                            show("站点数:"+resultnum+"\n"+"站点最短路径:"+resultpath);
+                            String code = (jsonObject.getString("code"));
+                            if(Integer.parseInt(code)==0) {
+                                String resultpath = (jsonObject.getString("msg"));
+                                String resultnum = (jsonObject.getString("stationnum"));
+                                show("站点数:" + resultnum + "\n" + "站点最短路径:" + resultpath);
+                            }else{
+                                String msg = (jsonObject.getString("msg"));
+                                show("提示信息:"+msg);
+                            }
 //                            System.out.println(result);
                     }else{
                         show("请求出错,请选择正确的站点请求");
